@@ -1,8 +1,10 @@
 /.git/
-/build/
 /node_modules/
 /design/
 /**/Thumbs.db
 /**/*.DS_Store
 .idea
 *.docx
+*.log*
+/public/*.js
+/public/*.js.map
