@@ -1,4 +1,5 @@
 const path = require(`path`);
+const MomentLocalesPlugin = require(`moment-locales-webpack-plugin`);
 
 module.exports = {
   mode: `development`, //Режим сборки
@@ -14,5 +15,23 @@ module.exports = {
     // По умолчанию приложение будет доступно по адресу http://localhost:8080
     // Лучше открывать в режиме инкогнито, чтобы брузер не кэшировал файл сборки
     // watchContentBase: true
-  }
+  },
+  module: {
+    rules: [
+        // {
+        //   test: /\.js$/,
+        //   exclude: /(node_modules)/,
+        //   use: ['babel-loader']
+        // },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader']
+        }
+    ]
+  },
+  plugins: [
+    new MomentLocalesPlugin({
+      localesToKeep: [`es-us`],
+    })
+  ]
 }
