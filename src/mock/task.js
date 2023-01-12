@@ -1,4 +1,7 @@
 import {COLORS} from "../const";
+import {makeCounter} from "../utils/common";
+
+const generateUniqueId = makeCounter();
 
 const DescriptionItems = [
   `Изучить теорию`,
@@ -44,6 +47,7 @@ const generateTask = () => {
   const dueDate = Math.random() > 0.5 ? getRandomDate() : null;
 
   return {
+    id: String(generateUniqueId()),
     description: getRandomArrayItem(DescriptionItems),
     dueDate,
     color: getRandomArrayItem(COLORS),

@@ -1,11 +1,14 @@
 import BoardComponent from './components/board';
 import BoardController from './controllers/board';
-import FilterComponent from './components/filters';
+import FilterController from './controllers/filter';
 
-import SiteMenuComponent from './components/site-menu';
+import SiteMenuComponent, {MenuItem} from './components/site-menu';
+import StatisticsComponent from './components/statistics';
+
+import TasksModel from './models/tasks';
+
 
 import {generateTasks} from './mock/task';
-import {generateFilters} from './mock/filter';
 import {RenderPosition, render} from './utils/render';
 
 const TASK_COUNT = 22;
@@ -13,14 +16,49 @@ const TASK_COUNT = 22;
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
-const tasks = generateTasks(TASK_COUNT);
-const filters = generateFilters();
+const siteMenuComponent = new SiteMenuComponent();
+render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
 
-render(siteHeaderElement, new SiteMenuComponent(), RenderPosition.BEFOREEND);
-render(siteMainElement, new FilterComponent(filters), RenderPosition.BEFOREEND);
+const tasks = generateTasks(TASK_COUNT);
+const tasksModel = new TasksModel();
+tasksModel.setTasks(tasks);
+
+const filterController = new FilterController(siteMainElement, tasksModel);
+filterController.render();
+
+tasksModel.setDataChangeHandler(() => {
+  filterController.render();
+});
 
 const boardComponent = new BoardComponent();
-const boardController = new BoardController(boardComponent);
+const boardController = new BoardController(boardComponent, tasksModel);
 
 render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
-boardController.render(tasks);
+boardController.render();
+
+const statisticsComponent = new StatisticsComponent(tasksModel);
+statisticsComponent.hide();
+render(siteMainElement, statisticsComponent, RenderPosition.BEFOREEND);
+
+siteMenuComponent.setOnChange((menuItem) => {
+  switch (menuItem) {
+    case MenuItem.NEW_TASK:
+      siteMenuComponent.setActiveItem(MenuItem.TASKS);
+      boardController.createTask();
+      break;
+
+    case MenuItem.STATISTICS:
+      siteMenuComponent.setActiveItem(MenuItem.STATISTICS);
+
+      statisticsComponent.show();
+      boardComponent.hide();
+      break;
+
+    case MenuItem.TASKS:
+      siteMenuComponent.setActiveItem(MenuItem.TASKS);
+
+      boardComponent.show();
+      statisticsComponent.hide();
+      break;
+  }
+});
