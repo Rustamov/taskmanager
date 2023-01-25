@@ -47,9 +47,14 @@ const createStatisticsTemplate = (task) => {
 };
 
 export default class Statistics extends AbstractComponent {
-  constructor(tasksModel) {
+  constructor(dataObj) {
     super();
-    this._tasksModel = tasksModel;
+
+    const {tasks, dateFrom, dateTo} = dataObj;
+
+    this._tasksModel = tasks;
+    this._dateFrom = dateFrom;
+    this._dateTo = dateTo;
     this._filteredTasks = null;
     this._lineGraphic = null;
     this._pieGraphic = null;
@@ -88,7 +93,7 @@ export default class Statistics extends AbstractComponent {
       }
     });
 
-    const dataLabels = Object.keys(dataObj).sort();
+    const dataLabels = Object.keys(dataObj);
     const dataSet = Object.values(dataObj);
 
     this._lineGraphic = new Chart(canvas, {
@@ -221,13 +226,11 @@ export default class Statistics extends AbstractComponent {
 
     const dateElement = this.getElement().querySelector(`.statistic__period-input`);
 
-    const todayDate = new Date();
-
     this._flatpickr = flatpickr(dateElement, {
       mode: `range`,
       altInput: true,
       allowInput: true,
-      defaultDate: [todayDate.setDate(todayDate.getDate() - 7), todayDate.setDate(todayDate.getDate() + 7)],
+      defaultDate: [this._dateFrom, this._dateTo],
     });
 
   }

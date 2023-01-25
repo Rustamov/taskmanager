@@ -14,9 +14,10 @@ export default class FilterController {
   }
 
   render() {
+
     const oldFilterComponent = this._filterComponent;
 
-    const container = this._container;
+    const container = this._container.getElement();
     const allTasks = this._tasksModel.getTasksAll();
 
 
@@ -37,7 +38,7 @@ export default class FilterController {
     if (oldFilterComponent) {
       replace(this._filterComponent, oldFilterComponent);
     } else {
-      render(container, this._filterComponent, RenderPosition.BEFOREEND);
+      render(container, this._filterComponent, RenderPosition.BEFOREBEGIN);
     }
 
   }
@@ -45,7 +46,5 @@ export default class FilterController {
   _onFilterChange(filterType) {
     this._tasksModel.setFilter(filterType);
     this._activeFilterType = filterType;
-
-    console.log(this);
   }
 }

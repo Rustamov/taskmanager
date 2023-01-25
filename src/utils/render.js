@@ -1,6 +1,8 @@
 export const RenderPosition = {
-  AFTERGBEGIN: `afterbegin`,
+  BEFOREBEGIN: `beforebegin`,
+  AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`,
 };
 
 export const createElement = (template) => {
@@ -11,14 +13,7 @@ export const createElement = (template) => {
 };
 
 export const render = (container, component, place = `beforeend`) => {
-  switch (place) {
-    case RenderPosition.AFTERGBEGIN:
-      container.prepend(component.getElement());
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(component.getElement());
-      break;
-  }
+  container.insertAdjacentElement(place, component.getElement());
 };
 
 export const replace = (newComponent, oldComponent) => {

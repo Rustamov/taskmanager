@@ -28,6 +28,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "flatpickr": "4.6.13",
     "he": "^1.2.0",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "nanoid": "^4.0.0"
   }
 }

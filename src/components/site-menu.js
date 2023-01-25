@@ -41,6 +41,12 @@ const createSiteMenuTemplate = () => {
 
 
 export default class SiteMenu extends AbstractComponent {
+  constructor() {
+    super();
+
+    this._activeItem = MenuItem.TASKS;
+  }
+
   getTemplate() {
     return createSiteMenuTemplate();
   }
@@ -51,7 +57,15 @@ export default class SiteMenu extends AbstractComponent {
     if (item) {
       item.checked = true;
     }
+
+    this._activeItem = item
   }
+
+  getActiveItem() {
+    const id = this.getElement().querySelector(`.control__input:checked`).id;
+    return id;
+  }
+
 
   setOnChange(handler) {
     this.getElement().addEventListener(`change`, (evt) => {

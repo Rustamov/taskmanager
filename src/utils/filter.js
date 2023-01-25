@@ -49,10 +49,6 @@ export const getArchiveTasks = (tasks) => {
   return tasks.filter((task) => task.isArchive);
 };
 
-// export const getArchiveTasks = (tasks) => {
-//   return tasks.filter((task) => task.isArchive);
-// }
-
 export const getFavoriteTasks = (tasks) => {
   return tasks.filter((task) => task.isFavorite);
 };

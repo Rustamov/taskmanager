@@ -63,7 +63,6 @@ export default class Tasks {
   }
 
   setDataChangeHandler(handler) {
-    console.log(`setDataChangeHandler`);
     this._dataChangeHandlers.push(handler);
   }
 
